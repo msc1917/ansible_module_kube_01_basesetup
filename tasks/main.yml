@@ -1,0 +1,15 @@
+---
+- name: Generate local enviroment
+  include_tasks: initial-host.yml
+
+- name: Base-Setup for host
+  include_tasks: initial-host.yml
+  when:
+    - k8s_node is defined
+    - k8s_node in [ "install_master", "become_master", "node" ]
+
+- name: Install additional software
+  include_tasks: initial-install_software.yml
+  when:
+    - k8s_node is defined
+    - k8s_node in [ "install_master", "become_master", "node" ]
